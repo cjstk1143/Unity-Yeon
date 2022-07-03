@@ -31,18 +31,16 @@ public class Movement : MonoBehaviour
         //Move();
         Move2();
 
-        anim.Play("RUN");
-
         if(_isMove)
         {
-            _ratio = Mathf.Lerp(_ratio, 1, 10 * Time.deltaTime);
-            anim.SetFloat("wait_run_ratio", 1);
+            anim.SetFloat("Speed", _speed);
         }
         else
         {
-            _ratio = Mathf.Lerp(_ratio, 0, 10 * Time.deltaTime);
-            anim.SetFloat("wait_run_ratio", 0);
+            anim.SetFloat("Speed", 0);
         }
+
+        Jump();
     }
 
     private void Move()
@@ -118,5 +116,18 @@ public class Movement : MonoBehaviour
 
         transform.rotation =
             Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 5.0f * Time.deltaTime);
+    }
+
+    private void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            anim.SetBool("IsJump",true);
+        }
+    }
+
+    public void JumpDown()
+    {
+        anim.SetBool("IsJump", false);
     }
 }
