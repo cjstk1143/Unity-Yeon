@@ -357,6 +357,7 @@
 "Assets/Script/TankScene/TankCollision.cs"
 "Assets/Script/TankScene/TankDetected.cs"
 "Assets/Script/TankScene/TankGizmo.cs"
+"Assets/Script/UnityChan/BottonDownTest.cs"
 "Assets/Script/UnityChan/CameraController.cs"
 "Assets/Script/UnityChan/Movement.cs"
 "Assets/unity-chan!/Unity-chan! Model/Scripts/AutoBlink.cs"
