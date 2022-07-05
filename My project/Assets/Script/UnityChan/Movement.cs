@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Movement : MonoBehaviour
 {
@@ -23,14 +24,17 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
+        InputManager input = Managers.Input;
+        input.KeyAction -= Move; // 오류 방지 코드
+        input.KeyAction += Move;
+        input.MouseAction -= Move2;
+        input.MouseAction += Move2;
+
         anim = GetComponent<Animator>();
     }
 
     void Update()
     {
-        //Move();
-        Move2();
-
         if(_isMove)
         {
             anim.SetFloat("Speed", _speed);
@@ -50,54 +54,62 @@ public class Movement : MonoBehaviour
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward), 0.2f);
             transform.rotation = q;
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+            _isMove = true;
         }
         if (Input.GetKey(KeyCode.S))
         {
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back), 0.2f);
             transform.rotation = q;
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+            _isMove = true;
         }
         if (Input.GetKey(KeyCode.A))
         {
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.2f);
             transform.rotation = q;
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+            _isMove = true;
         }
         if (Input.GetKey(KeyCode.D))
         {
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.2f);
             transform.rotation = q;
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+            _isMove = true;
         }
+
+        //if (Input.anyKey)
+        //    _isMove = false;
     }
 
-    private void Move2()
+    private void Move2(Define.MouseEvent evt)
     {
+        // UI에 마우스가 올라와있으면 리턴
+        if (EventSystem.current.IsPointerOverGameObject()) // 마우스가 지금 내 GameObject에 올라와있나요?
+            return; // =>Panel에 이 스크립트는 없지만.. EventSystem은 있지..
+
         // 카메라부터 Plane에 레이저 쏴서 처음 부딪히는 위치 찾기
-        if (Input.GetMouseButton(1))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        /* 
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
+        //Vector3 dir = mousePos - Camera.main.transform.position ;
+        dir.Normalize();
+        */
+
+        Debug.DrawRay(Camera.main.transform.position, ray.direction * 100, Color.red);
+        // Vector..ㅋ (x, y, z)이지만 그 안엔 길이까지(+방향) 포함되어 있는 건가..?
+        // 그게 아니고서야 어떻게 (x, y, z)에 이미 길이가 있는 건 물론이고
+        // 30을 곱했다고 어떻게 더 길어질 수가 있는 거지...!!?ㅋㅋ
+        // 신기하네.. 때론 포인트(특정 위치)가 되고 때론 방향을 포함한 길이가 되니..
+
+        RaycastHit hit;
+        LayerMask layerMask = LayerMask.GetMask("Plane");
+
+        if (Physics.Raycast(ray, out hit, 100, layerMask))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            /* 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-            //Vector3 dir = mousePos - Camera.main.transform.position ;
-            dir.Normalize();
-            */
-
-            Debug.DrawRay(Camera.main.transform.position, ray.direction * 100, Color.red);
-            // Vector..ㅋ 시팔 (x, y, z)이지만 그 안엔 길이까지(+방향) 포함되어 있는 건가..?
-            // 그게 아니고서야 어떻게 (x, y, z)에 이미 길이가 있는 건 물론이고
-            // 30을 곱했다고 어떻게 더 길어질 수가 있는 거지...!!?ㅋㅋ
-            // 신기하네.. 때론 포인트(특정 위치)가 되고 때론 방향을 포함한 길이가 되니..
-
-            RaycastHit hit;
-            LayerMask layerMask = LayerMask.GetMask("Plane");
-
-            if (Physics.Raycast(ray, out hit, 100, layerMask))
-            {
-                rayHitPosition = hit.point;
-                Debug.Log(hit.transform.name);
-            }
+            rayHitPosition = hit.point;
+            Debug.Log(hit.transform.name);
         }
 
         // 캐릭터로부터 레이저 포인트 위치를 빼면 => 캐릭터부터 레이저 찍힌 위치까지의 방향
@@ -118,12 +130,17 @@ public class Movement : MonoBehaviour
             Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 5.0f * Time.deltaTime);
     }
 
-    private void Jump()
+    public void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             anim.SetBool("IsJump",true);
         }
+    }
+
+    public void BottonJump()
+    {
+        anim.SetBool("IsJump", true);
     }
 
     public void JumpDown()

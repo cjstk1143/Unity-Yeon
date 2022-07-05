@@ -922,6 +922,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1463318400 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2542729484612754187, guid: a8e02341bfd5e1347839a8f80e75d950, type: 3}
+  m_PrefabInstance: {fileID: 2659458374067134352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463318394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab45ed06ddcfda448fd9f04f4ad7e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1509503202
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,6 +1238,18 @@ MonoBehaviour:
       - m_Target: {fileID: 723187532}
         m_TargetAssemblyTypeName: BottonDownTest, Assembly-CSharp
         m_MethodName: OnMouseClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1463318400}
+        m_TargetAssemblyTypeName: Movement, Assembly-CSharp
+        m_MethodName: BottonJump
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
