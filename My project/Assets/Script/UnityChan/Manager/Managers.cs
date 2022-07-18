@@ -9,12 +9,15 @@ public class Managers : MonoBehaviour
     public static Managers Instance { get { Init(); return _instance; } }  // 그냥 안전하게 읽는 용도로만 불러오는 거임. 이 get이. class 안의 함수 rg~?
 
     InputManager _input = new InputManager();
+    ResourceManager _resource = new ResourceManager();
 
-    public static InputManager Input { get { return Instance._input; } } 
+    public static InputManager Input { get { return Instance._input; } }
+    public static ResourceManager Resource { get { return Instance._resource; } }
 
     private void Start()
     {
         Init();
+        Resource.Instantiate("UnityChan/UI/UI_Manager");
     }
 
     private void Update()

@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
 public class Movement : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
-    Vector3 rayHitPosition = Vector3.zero;
+    Vector3 _rayHitPosition = Vector3.zero;
 
     private bool _isMove = false;
-
+    private CapsuleCollider _capsuleCol;
     enum State
     {
         IS_MOVE,
@@ -20,34 +21,72 @@ public class Movement : MonoBehaviour
     }
 
     private float _ratio = 0.0f;
-    private Animator anim;
+    private Animator _anim;
 
     void Start()
     {
         InputManager input = Managers.Input;
-        input.KeyAction -= Move; // 오류 방지 코드
-        input.KeyAction += Move;
-        input.MouseAction -= Move2;
-        input.MouseAction += Move2;
+        input.KeyAction -= OnKeyBoard; // 오류 방지 코드
+        input.KeyAction += OnKeyBoard;
+        input.MouseAction -= OnClick;
+        input.MouseAction += OnClick;
 
-        anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
+        _capsuleCol = GetComponent<CapsuleCollider>();
+
+        _rayHitPosition = transform.position;
+    }
+
+    void MouseMove()
+    {
+        // 캐릭터로부터 레이저 포인트 위치를 빼면 => 캐릭터부터 레이저 찍힌 위치까지의 방향
+        _rayHitPosition.y = transform.position.y; // (이동할) y값은 캐릭터의 y값과 일치(당연히. 바닥이니까~)
+        Vector3 derectionToHit = _rayHitPosition - transform.position; // 방향
+        Vector3 dir = derectionToHit.normalized; // 방향으로의 단위 벡터 => 가까운 곳 찍든, 먼 곳 찍든 일정한 속도로 가기 위하여!!
+
+        Vector3 orginPos = transform.position;
+        orginPos += _capsuleCol.center;
+
+        Debug.DrawRay(orginPos, dir * 1.2f, Color.red);
+        if (Physics.Raycast(orginPos, dir, 1.2f, LayerMask.GetMask("Block")))
+        {
+            _isMove = false;
+            return;
+        }
+
+        if (derectionToHit.magnitude < 0.1f) // magnitude <- 길이 
+        {
+            _isMove = false;
+        }
+        else
+        {
+            NavMeshAgent agent = GetComponent<NavMeshAgent>();
+            agent.Move(dir * _speed * Time.deltaTime);
+            //transform.position += dir * _speed * Time.deltaTime;
+            _isMove = true;
+
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 5.0f * Time.deltaTime);
+        }
     }
 
     void Update()
     {
-        if(_isMove)
+        MouseMove();
+
+        if (_isMove)
         {
-            anim.SetFloat("Speed", _speed);
+            _anim.SetFloat("Speed", _speed);
         }
         else
         {
-            anim.SetFloat("Speed", 0);
+            _anim.SetFloat("Speed", 0);
         }
 
         Jump();
     }
 
-    private void Move()
+    private void OnKeyBoard()
     {
         if (Input.GetKey(KeyCode.W))
         {
@@ -82,12 +121,8 @@ public class Movement : MonoBehaviour
         //    _isMove = false;
     }
 
-    private void Move2(Define.MouseEvent evt)
+    private void OnClick(Define.MouseEvent evt)
     {
-        // UI에 마우스가 올라와있으면 리턴
-        if (EventSystem.current.IsPointerOverGameObject()) // 마우스가 지금 내 GameObject에 올라와있나요?
-            return; // =>Panel에 이 스크립트는 없지만.. EventSystem은 있지..
-
         // 카메라부터 Plane에 레이저 쏴서 처음 부딪히는 위치 찾기
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -101,50 +136,32 @@ public class Movement : MonoBehaviour
         // Vector..ㅋ (x, y, z)이지만 그 안엔 길이까지(+방향) 포함되어 있는 건가..?
         // 그게 아니고서야 어떻게 (x, y, z)에 이미 길이가 있는 건 물론이고
         // 30을 곱했다고 어떻게 더 길어질 수가 있는 거지...!!?ㅋㅋ
-        // 신기하네.. 때론 포인트(특정 위치)가 되고 때론 방향을 포함한 길이가 되니..
+        // 신기하네.. 때론 포인트(특정 위치)가 되고 때론 방향을 포함한 길이가 되니.. 
 
         RaycastHit hit;
         LayerMask layerMask = LayerMask.GetMask("Plane");
 
         if (Physics.Raycast(ray, out hit, 100, layerMask))
-        {
-            rayHitPosition = hit.point;
-            Debug.Log(hit.transform.name);
+        {            
+            _rayHitPosition = hit.point;
         }
-
-        // 캐릭터로부터 레이저 포인트 위치를 빼면 => 캐릭터부터 레이저 찍힌 위치까지의 방향
-        rayHitPosition.y = transform.position.y; // (이동할) y값은 캐릭터의 y값과 일치(당연히. 바닥이니까~)
-        Vector3 derectionToHit = rayHitPosition - transform.position; // 방향
-        Vector3 dir = derectionToHit.normalized; // 방향으로의 단위 벡터 => 가까운 곳 찍든, 먼 곳 찍든 일정한 속도로 가기 위하여!!
-
-        if (derectionToHit.magnitude < 0.01f) // magnitude <- 길이 
-        {
-            _isMove = false;
-            return;
-        }
-
-        transform.position += dir * _speed * Time.deltaTime;
-        _isMove = true;
-
-        transform.rotation =
-            Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 5.0f * Time.deltaTime);
     }
 
     public void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            anim.SetBool("IsJump",true);
+            _anim.SetBool("IsJump",true);
         }
     }
 
     public void BottonJump()
     {
-        anim.SetBool("IsJump", true);
+        _anim.SetBool("IsJump", true);
     }
 
     public void JumpDown()
     {
-        anim.SetBool("IsJump", false);
+        _anim.SetBool("IsJump", false);
     }
 }

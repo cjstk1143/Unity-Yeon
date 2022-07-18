@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InputManager
 {
@@ -15,6 +16,10 @@ public class InputManager
 
     public void OnUpdate() // Update가 아닌 OnUpdate이 이유는 스스로가 아닌 누군가에게 붙어서 Update해야하기 때문!
     {
+        // UI에 마우스가 올라와있으면 리턴
+        if (EventSystem.current.IsPointerOverGameObject()) // 마우스가 지금 내 GameObject에 올라와있나요?
+            return; // =>Panel에 이 스크립트는 없지만.. EventSystem은 있지..
+
         if (Input.anyKey && KeyAction != null)
             KeyAction.Invoke(); // == KeyAction();와 비슷하다나 같다나~ 멤버함수를 호출해주는 거래(..?)
 

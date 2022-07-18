@@ -11,13 +11,11 @@ public class ObjectPool : MonoBehaviour
 
     void Awake()
     {
-        _ballOrigin = Resources.Load<GameObject>($"Prefabs/Ball");
-
         _ballList = new List<GameObject>(30);
 
         for(int i = 0; i < _poolCount; i++)
         {
-            GameObject go = Instantiate<GameObject>(_ballOrigin);
+            GameObject go = Managers.Resource.Instantiate("Ball");
             go.transform.parent = transform;
             go.SetActive(false);
             _ballList.Add(go);
