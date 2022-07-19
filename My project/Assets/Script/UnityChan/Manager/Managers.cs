@@ -17,7 +17,12 @@ public class Managers : MonoBehaviour
     private void Start()
     {
         Init();
-        Resource.Instantiate("UnityChan/UI/UI_Manager");
+
+        GameObject UI_Manager = GameObject.Find("UI_Manager");
+        if (UI_Manager == null)
+            UI_Manager = Resource.Instantiate("UnityChan/UI/UI_Manager");
+
+        UI_Manager.transform.SetParent(gameObject.transform);
     }
 
     private void Update()

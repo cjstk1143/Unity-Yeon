@@ -4,11 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - TankBall
   - Plane
-  - AITankDetect
-  - EnemyTank
-  - Tank
+  - PlayerWeapon
   layers:
   - Default
   - TransparentFX

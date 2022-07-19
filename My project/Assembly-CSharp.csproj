@@ -58,7 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Script\SolarSystem\MoveComponent.cs" />
     <Compile Include="Assets\Script\TankScene\TankBall.cs" />
-    <Compile Include="Assets\Script\UnityChan\Movement.cs" />
+    <Compile Include="Assets\Script\UnityChan\PlayerControll.cs" />
     <Compile Include="Assets\Script\TankScene\TankGizmo.cs" />
     <Compile Include="Assets\Script\TankScene\ObjectPool.cs" />
     <Compile Include="Assets\Script\UnityChan\Manager\InputManager.cs" />
@@ -68,9 +68,11 @@
     <Compile Include="Assets\Script\TankScene\TankCollision.cs" />
     <Compile Include="Assets\Script\UnityChan\Manager\ResourceManager.cs" />
     <Compile Include="Assets\Script\UnityChan\CameraController.cs" />
+    <Compile Include="Assets\Script\UnityChan\BaseControll.cs" />
     <Compile Include="Assets\Script\TankScene\Tank.cs" />
     <Compile Include="Assets\Script\TankScene\TankDetected.cs" />
     <Compile Include="Assets\Script\SolarSystem\Rotation.cs" />
+    <Compile Include="Assets\Script\UnityChan\MonsterControll.cs" />
     <Compile Include="Assets\Script\UnityChan\Manager\UI_Manager.cs" />
   </ItemGroup>
   <ItemGroup>
