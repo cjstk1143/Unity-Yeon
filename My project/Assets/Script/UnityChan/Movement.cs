@@ -30,6 +30,10 @@ public class Movement : MonoBehaviour
         input.KeyAction += OnKeyBoard;
         input.MouseAction -= OnClick;
         input.MouseAction += OnClick;
+        input.KeyAction -= Attack;
+        input.KeyAction += Attack;
+        input.KeyAction -= Jump;
+        input.KeyAction += Jump;
 
         _anim = GetComponent<Animator>();
         _capsuleCol = GetComponent<CapsuleCollider>();
@@ -163,5 +167,18 @@ public class Movement : MonoBehaviour
     public void JumpDown()
     {
         _anim.SetBool("IsJump", false);
+    }
+
+    public void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            _anim.SetBool("IsAttack", true);
+        }
+    }
+
+    public void AttackEnd()
+    {
+        _anim.SetBool("IsAttack", false);
     }
 }
