@@ -8,16 +8,15 @@ public class PlayerControll : BaseControll
 {
     public GameObject _hpBar;
     public Dictionary<string, GameObject> _swordTable;
-    private GameObject CurSword;
 
+    private GameObject _curSword;
+     
     protected override void Start()
     {
         base.Start();
 
         InputManager input = Managers.Input;
-        input.KeyAction -= OnKeyBoard; // 오류 방지 코드
-        input.KeyAction += OnKeyBoard;
-        input.MouseAction -= OnClick;
+        input.MouseAction -= OnClick; // 오류 방지 코드
         input.MouseAction += OnClick;
         input.KeyAction -= Attack;
         input.KeyAction += Attack;
@@ -35,91 +34,92 @@ public class PlayerControll : BaseControll
         }
 
         _swordTable["sword_epic"].SetActive(true);
-        CurSword = _swordTable["sword_epic"];
-    }
-
-    void MouseMove()
-    {
-        // 캐릭터로부터 레이저 포인트 위치를 빼면 => 캐릭터부터 레이저 찍힌 위치까지의 방향
-        _rayHitPosition.y = transform.position.y; // (이동할) y값은 캐릭터의 y값과 일치(당연히. 바닥이니까~)
-        Vector3 derectionToHit = _rayHitPosition - transform.position; // 방향
-        Vector3 dir = derectionToHit.normalized; // 방향으로의 단위 벡터 => 가까운 곳 찍든, 먼 곳 찍든 일정한 속도로 가기 위하여!!
-
-        Vector3 orginPos = transform.position;
-        orginPos += _capsuleCol.center;
-
-        Debug.DrawRay(orginPos, dir * 1.2f, Color.red);
-        if (Physics.Raycast(orginPos, dir, 1.2f, LayerMask.GetMask("Block")))
-        {
-            _isMove = false;
-            return;
-        }
-
-        if (derectionToHit.magnitude < 0.1f) // magnitude <- 길이 
-        {
-            _isMove = false;
-        }
-        else
-        {
-            NavMeshAgent agent = GetComponent<NavMeshAgent>();
-            agent.Move(dir * _speed * Time.deltaTime);
-            //transform.position += dir * _speed * Time.deltaTime;
-            _isMove = true;
-
-            transform.rotation =
-                Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 5.0f * Time.deltaTime);
-        }
+        _curSword = _swordTable["sword_epic"];
     }
 
     protected override void Update()
     {
         base.Update();
-
-        if (_isMove)
-        {
-            _anim.SetFloat("Speed", _speed);
-        }
-        else
-        {
-            _anim.SetFloat("Speed", 0);
-        }
-
-        MouseMove();
     }
 
-    private void OnKeyBoard()
+    private bool OnKeyBoard()
     {
+        if (State == Define.State.ATTACK)
+            return false;
+
         if (Input.GetKey(KeyCode.W))
         {
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.forward), 0.2f);
             transform.rotation = q;
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                Quaternion qA = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.2f);
+                transform.rotation = qA;
+                transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+
+                return true;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                Quaternion qD = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.2f);
+                transform.rotation = qD;
+                transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+
+                return true;
+            }
+
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
-            _isMove = true;
+            return true;
         }
+
         if (Input.GetKey(KeyCode.S))
         {
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.back), 0.2f);
             transform.rotation = q;
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                Quaternion qA = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.2f);
+                transform.rotation = qA;
+                transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+
+                return true;
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                Quaternion qD = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.2f);
+                transform.rotation = qD;
+                transform.Translate(Vector3.forward * Time.deltaTime * _speed);
+
+                return true;
+            }
+
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
-            _isMove = true;
+            return true;
         }
+
         if (Input.GetKey(KeyCode.A))
         {
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.left), 0.2f);
             transform.rotation = q;
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
             _isMove = true;
+
+            return true;
         }
+
         if (Input.GetKey(KeyCode.D))
         {
             Quaternion q = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(Vector3.right), 0.2f);
             transform.rotation = q;
             transform.Translate(Vector3.forward * Time.deltaTime * _speed);
             _isMove = true;
+
+            return true;
         }
 
-        //if (Input.anyKey)
-        //    _isMove = false;
+        return false;
     }
 
     private void OnClick(Define.MouseEvent evt)
@@ -181,15 +181,72 @@ public class PlayerControll : BaseControll
     {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            _anim.SetBool("IsAttack", true);
-            CurSword.GetComponent<Collider>().enabled = true;
+            State = Define.State.ATTACK;
         }
     }
 
     public void AttackEnd()
     {
-        _anim.SetBool("IsAttack", false);
-        CurSword.GetComponent<Collider>().enabled = false;
+        State = Define.State.IDLE;
+        _curSword.GetComponent<Collider>().enabled = false;
+    }
 
+    public void WeaponColTrigger()
+    {
+        _curSword.GetComponent<Collider>().enabled = true;
+    }
+
+    private void MouseMove()
+    {
+        // 캐릭터로부터 레이저 포인트 위치를 빼면 => 캐릭터부터 레이저 찍힌 위치까지의 방향
+        _rayHitPosition.y = transform.position.y; // (이동할) y값은 캐릭터의 y값과 일치(당연히. 바닥이니까~)
+        Vector3 derectionToHit = _rayHitPosition - transform.position; // 방향
+        Vector3 dir = derectionToHit.normalized; // 방향으로의 단위 벡터 => 가까운 곳 찍든, 먼 곳 찍든 일정한 속도로 가기 위하여!!
+
+        Vector3 orginPos = transform.position;
+        orginPos += _capsuleCol.center;
+
+        Debug.DrawRay(orginPos, dir * 1.2f, Color.red);
+        if (Physics.Raycast(orginPos, dir, 1.2f, LayerMask.GetMask("Block")))
+        {
+            _isMove = false;
+            return;
+        }
+
+        if (derectionToHit.magnitude < 0.1f) // magnitude <- 길이 
+        {
+            _isMove = false;
+        }
+        else
+        {
+            NavMeshAgent agent = GetComponent<NavMeshAgent>();
+            agent.Move(dir * _speed * Time.deltaTime);
+            //transform.position += dir * _speed * Time.deltaTime;
+            _isMove = true;
+
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 5.0f * Time.deltaTime);
+        }
+    }
+
+    protected override void UpdateMove()
+    {
+        base.UpdateMove();
+
+        if (!OnKeyBoard())
+            State = Define.State.IDLE;
+    }
+
+    protected override void UpdateIdle()
+    {
+        base.UpdateIdle();
+
+        if (OnKeyBoard())
+            State = Define.State.MOVE;
+    }
+
+    protected override void UpdateAttack()
+    {
+        base.UpdateAttack();
     }
 }

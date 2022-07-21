@@ -53,9 +53,7 @@ public class UI_Manager : MonoBehaviour
     // 게임 시작하고 0.5초 뒤에 실행되는 함수를 만들고 싶다.
     IEnumerator CO_UnityCoroutineTest(float waitTime)
     {
-        Debug.Log("폭탄 터짐");
         yield return new WaitForSeconds(waitTime);  
-        Debug.Log("폭탄 소리!!!");
         yield break;
         // return 번호 상관없이 위에서 아래로 실행 됨.
     }
