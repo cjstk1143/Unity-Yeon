@@ -12,6 +12,7 @@ public class BaseControll : MonoBehaviour
     protected Vector3 _rayHitPosition = Vector3.zero;
 
     protected bool _isMove = false;
+    protected bool _isAttack = false;
     protected CapsuleCollider _capsuleCol;
     protected Animator _anim;
 

@@ -7,6 +7,7 @@ public class MonsterControll : BaseControll
 {
     public GameObject _monsterInfo;
     Slider _hpSlider;
+    GameObject _player;
 
     MonsterStat _stat;
 
@@ -14,6 +15,11 @@ public class MonsterControll : BaseControll
     private Vector3 _originPos;
     [SerializeField]
     private float _movingDistance;
+    [SerializeField]
+    private float _detectDistance = 5.0f;
+    [SerializeField]
+    private float _attackRange = 1.0f;
+
 
     protected override void Start()
     {
@@ -32,9 +38,14 @@ public class MonsterControll : BaseControll
         _speed = 10.0f;
         _state = Define.State.IDLE;
 
-        StartCoroutine("C0_MonsterAIMove");
+        StartCoroutine("Co_MonsterAIMove");
 
         _movingDistance = 5.0f;
+        _detectDistance = 5.0f;
+        _attackRange = 1.0f;
+        _speed = 2.0f;
+
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void OnEnable()
@@ -45,7 +56,7 @@ public class MonsterControll : BaseControll
 
     private void OnDisable()
     {
-        StartCoroutine("C0_MonsterAIMove");
+        StopCoroutine("Co_MonsterAIMove");
     }
 
     protected override void Update()
@@ -74,54 +85,103 @@ public class MonsterControll : BaseControll
         }
     }
 
-    IEnumerator C0_MonsterAIMove()
+    IEnumerator Co_MonsterAIMove()
     {
-        Debug.Log("AIMove 호출");
-        float x = transform.position.x;
-        float z = transform.position.z;
+        if (_isMove == false)
+            yield return new WaitForSeconds(3.0f);
 
-        while(true)
-        {
-           x = Random.Range(- 1.0f, 1.0f);
-           z = Random.Range(- 1.0f, 1.0f);
+        State = Define.State.MOVE;
+        _isMove = true;
+        float x;
+        float z;
 
-           _movePos = new Vector3(x, 0, z);
-           _movePos.Normalize();
+        x = Random.Range(- 5.0f + _originPos.x, 5.0f + _originPos.x);
+        z = Random.Range(- 5.0f + _originPos.z, 5.0f + _originPos.z);
 
-            Vector3 temp = (transform.position + _movePos) - _originPos; //거리량
-            if (temp.magnitude > _movingDistance)
-            {
-                continue;
-            }
-
-            break;
-        }
+        _movePos = new Vector3(x, 0.0f, z);
 
         Debug.Log(_movePos);
-
-        yield return new WaitForSeconds(7.0f);
-
-        StartCoroutine("C0_MonsterAIMove");
+        yield return new WaitForSeconds(3.0f);
+        StartCoroutine("Co_MonsterAIMove");
     }
 
     void RandMove()
     {
-        transform.Translate(_movePos * Time.deltaTime);
+        if (Detect() == true)
+            return;
+
+        Vector3 temp = _movePos - transform.position;
+        
+        if (temp.magnitude < 0.1f)
+        {
+            //Debug.Log("Reach");
+            State = Define.State.IDLE;
+
+            return;
+        }
+
+        transform.rotation = Quaternion.LookRotation(temp);
+        transform.position += (temp.normalized * Time.deltaTime * 5.0f);
+    }
+    
+    bool Detect()
+    {
+        if (_player == null)
+            _player = GameObject.FindGameObjectWithTag("Player");
+
+        float distance = (_player.transform.position - transform.position).magnitude;
+
+        if (distance < _detectDistance)
+        {
+            State = Define.State.MOVE;
+            Follow();
+            return true;
+        }
+
+        return false;
+    }
+
+    void Follow()
+    {
+        if (_player == null)
+            _player = GameObject.FindGameObjectWithTag("Player");
+
+        Vector3 moveVector = _player.transform.position - transform.position;
+
+        if (moveVector.magnitude <= _attackRange)
+        {
+            Attack();
+            return;
+        }
+
+        transform.position += moveVector.normalized * _speed * Time.deltaTime;
+    }
+
+    void Attack()
+    {
+        if (_isAttack)
+            return;
+
+        State = Define.State.ATTACK;
+        _isAttack = true;
     }
 
     protected override void UpdateMove()
     {
         base.UpdateMove();
+        RandMove();
     }
 
     protected override void UpdateIdle()
     {
         base.UpdateIdle();
-        RandMove();
+        Detect();
+        _isMove = false;
     }
 
     protected override void UpdateAttack()
     {
         base.UpdateAttack();
+        Detect();
     }
 }

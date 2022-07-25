@@ -235,157 +235,11 @@ Transform:
   m_Father: {fileID: 2128410248}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &223930013
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1717474267, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717474267, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1111084942782338, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_Name
-      value: Boximon Cyclopes (2)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 30.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 45.53
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.2480969
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.9687352
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -568.73
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 703187517333821922, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 4850606310237737724, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
 --- !u!1 &249515452 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7996837596736955823, guid: 7a03a0b84c8fc8e49a07d9906d68bc88, type: 3}
   m_PrefabInstance: {fileID: 1936215929}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &300495507
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1717474267, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717474267, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1111084942782338, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_Name
-      value: Boximon Cyclopes (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 34.374756
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 45.702908
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.18052316
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.98357075
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -560.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 703187517333821922, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_Constraints
-      value: 112
-      objectReference: {fileID: 0}
-    - target: {fileID: 4850606310237737724, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
 --- !u!1 &362482634
 GameObject:
   m_ObjectHideFlags: 0
@@ -1164,6 +1018,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boximon Cyclopes
       objectReference: {fileID: 0}
+    - target: {fileID: 1111084942782338, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
+      propertyPath: m_TagString
+      value: Monster
+      objectReference: {fileID: 0}
     - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1207,6 +1065,18 @@ PrefabInstance:
     - target: {fileID: 4274285055804658, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95782878299265946, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 616f0a36bcf3dba41b35b80746c3adf5, type: 2}
+    - target: {fileID: 703187517333821922, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
+      propertyPath: m_Constraints
+      value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 703187517333821922, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84493eaa65d75074ca2c6e2d8a90ff9a, type: 3}
@@ -1978,6 +1848,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: unitychan
       objectReference: {fileID: 0}
+    - target: {fileID: 297789101595555896, guid: a8e02341bfd5e1347839a8f80e75d950, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 2542729484612754187, guid: a8e02341bfd5e1347839a8f80e75d950, type: 3}
       propertyPath: _hpBar
       value: 
@@ -2205,7 +2079,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6867653167247476781, guid: f174bd3b64b2a674bb8fa6f4bc3fe551, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6867653167247476781, guid: f174bd3b64b2a674bb8fa6f4bc3fe551, type: 3}
       propertyPath: m_LocalPosition.x
