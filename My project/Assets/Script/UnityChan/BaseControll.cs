@@ -16,36 +16,6 @@ public class BaseControll : MonoBehaviour
     protected CapsuleCollider _capsuleCol;
     protected Animator _anim;
 
-    public virtual Define.State State
-    {
-        get { return _state; }
-        set
-        {
-            _state = value;
-
-            if (_anim == null)
-                _anim = GetComponent<Animator>();
-
-            switch(_state)
-            {
-                case Define.State.DEAD:
-                    break;
-
-                case Define.State.MOVE:
-                    _anim.CrossFade("RUN", 0.1f, 0, 0.0f);
-                    break;
-
-                case Define.State.IDLE:
-                    _anim.CrossFade("WAIT", 0.3f, 0, 0.0f);
-                    break;
-
-                case Define.State.ATTACK:
-                    _anim.CrossFade("ATTACK", 0.1f);
-                    break;
-            }
-        }
-    }
-
     protected virtual void Start()
     {
         _anim = GetComponent<Animator>();
@@ -69,6 +39,39 @@ public class BaseControll : MonoBehaviour
             case Define.State.ATTACK:
                 UpdateAttack();
                 break;
+        }
+    }
+
+    public virtual Define.State State
+    {
+        get { return _state; }
+        set
+        {
+            if (_state == value)
+                return;
+
+            _state = value;
+
+            if (_anim == null)
+                _anim = GetComponent<Animator>();
+
+            switch(_state)
+            {
+                case Define.State.DEAD:
+                    break;
+
+                case Define.State.MOVE:
+                    _anim.CrossFade("RUN", 0.1f, 0, 0.0f);
+                    break;
+
+                case Define.State.IDLE:
+                    _anim.CrossFade("WAIT", 0.3f, 0, 0.0f);
+                    break;
+
+                case Define.State.ATTACK:
+                    _anim.CrossFade("ATTACK", 0.1f);
+                    break;
+            }
         }
     }
 

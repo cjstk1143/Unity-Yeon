@@ -76,6 +76,7 @@
     <Compile Include="Assets\Script\UnityChan\Stat\PlayerStat.cs" />
     <Compile Include="Assets\Script\SolarSystem\Rotation.cs" />
     <Compile Include="Assets\Script\UnityChan\MonsterControll.cs" />
+    <Compile Include="Assets\Script\UnityChan\Manager\EffectManager.cs" />
     <Compile Include="Assets\Script\UnityChan\Manager\UI_Manager.cs" />
   </ItemGroup>
   <ItemGroup>
